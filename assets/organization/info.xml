@@ -2,7 +2,7 @@
 <Info>
 	<member>
 		<width>100</width>
-                <height>100</height>
+        <height>100</height>
 		<hp>1000</hp>
 		<speed>3</speed>
 		<offensive>30</offensive>
@@ -13,9 +13,9 @@
 		<imagePath>kosei</imagePath>
 	</member>
 	<member>
-		<width>100</width>
-                <height>200</height>
-		<hp>1000</hp>
+		<width>150</width>
+        <height>200</height>
+		<hp>3000</hp>
 		<speed>3</speed>
 		<offensive>20</offensive>
 		<waitingTime>100</waitingTime>
