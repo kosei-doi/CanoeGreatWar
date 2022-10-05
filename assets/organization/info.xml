@@ -24,4 +24,16 @@
 		<AttackStyle>far</AttackStyle>
 		<imagePath>yousuke</imagePath>
 	</member>
+	<member>
+		<width>100</width>
+        <height>100</height>
+		<hp>2000</hp>
+		<speed>2</speed>
+		<offensive>40</offensive>
+		<waitingTime>100</waitingTime>
+		<cost>100</cost>
+		<AttackInterval>25</AttackInterval>
+		<AttackStyle>far</AttackStyle>
+		<imagePath>taichi</imagePath>
+	</member>
 </Info>
