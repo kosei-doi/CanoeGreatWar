@@ -1552,10 +1552,19 @@ class Program : Form
                     CharaRunnings[i].X -= CharaInfoList[CharaRunnings[i].CharaType].Speed;
                 }
 
-                
+
                 //draw
-                g.DrawImage(CharaInfoList[CharaRunnings[i].CharaType].Image[x + CharaRunnings[i].Statement - 1], new Rectangle(CharaRunnings[i].X - CharaInfoList[CharaRunnings[i].CharaType].Width, 474 - 5 * i + 60 - CharaInfoList[CharaRunnings[i].CharaType].Height - CharaRunnings[i].Y, CharaInfoList[CharaRunnings[i].CharaType].Width, CharaInfoList[CharaRunnings[i].CharaType].Height),
-                 0, 0, CharaInfoList[CharaRunnings[i].CharaType].Image[x + CharaRunnings[i].Statement - 1].Width, CharaInfoList[CharaRunnings[i].CharaType].Image[x + CharaRunnings[i].Statement - 1].Height, GraphicsUnit.Pixel, ia);
+                Console.WriteLine(CharaRunnings[i].Statement);
+                if(CharaRunnings[i].Statement == 4)
+                {
+                    g.DrawImage(CharaInfoList[CharaRunnings[i].CharaType].Image[x + CharaRunnings[i].Statement - 1], new Rectangle(CharaRunnings[i].X - CharaInfoList[CharaRunnings[i].CharaType].Width - 50 , 474 - 5 * i + 60 - CharaInfoList[CharaRunnings[i].CharaType].Height - CharaRunnings[i].Y, CharaInfoList[CharaRunnings[i].CharaType].Width + 50, CharaInfoList[CharaRunnings[i].CharaType].Height),
+                     0, 0, CharaInfoList[CharaRunnings[i].CharaType].Image[x + CharaRunnings[i].Statement - 1].Width, CharaInfoList[CharaRunnings[i].CharaType].Image[x + CharaRunnings[i].Statement - 1].Height, GraphicsUnit.Pixel, ia);
+                }
+                else
+                {
+                    g.DrawImage(CharaInfoList[CharaRunnings[i].CharaType].Image[x + CharaRunnings[i].Statement - 1], new Rectangle(CharaRunnings[i].X - CharaInfoList[CharaRunnings[i].CharaType].Width, 474 - 5 * i + 60 - CharaInfoList[CharaRunnings[i].CharaType].Height - CharaRunnings[i].Y, CharaInfoList[CharaRunnings[i].CharaType].Width, CharaInfoList[CharaRunnings[i].CharaType].Height),
+                     0, 0, CharaInfoList[CharaRunnings[i].CharaType].Image[x + CharaRunnings[i].Statement - 1].Width, CharaInfoList[CharaRunnings[i].CharaType].Image[x + CharaRunnings[i].Statement - 1].Height, GraphicsUnit.Pixel, ia);
+                }
 
 
                 g.DrawImage(Shadow_img, new Rectangle(CharaRunnings[i].X - CharaInfoList[CharaRunnings[i].CharaType].Width + 20 , 474 - 5 * i + 60, CharaInfoList[CharaRunnings[i].CharaType].Width - 40, 4),
