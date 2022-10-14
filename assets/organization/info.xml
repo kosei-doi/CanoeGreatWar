@@ -33,7 +33,19 @@
 		<waitingTime>100</waitingTime>
 		<cost>100</cost>
 		<AttackInterval>25</AttackInterval>
-		<AttackStyle>far</AttackStyle>
+		<AttackStyle>near</AttackStyle>
 		<imagePath>taichi</imagePath>
+	</member>
+	<member>
+		<width>100</width>
+        <height>100</height>
+		<hp>1500</hp>
+		<speed>4</speed>
+		<offensive>50</offensive>
+		<waitingTime>100</waitingTime>
+		<cost>120</cost>
+		<AttackInterval>20</AttackInterval>
+		<AttackStyle>near</AttackStyle>
+		<imagePath>hikaru</imagePath>
 	</member>
 </Info>
