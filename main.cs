@@ -654,7 +654,7 @@ class Program : Form
                         }
                         else if (target == "F")
                         {
-                            money_cost += 15;
+                            money_cost -= 15;
                         }
                         else if (target == "G")
                         {

@@ -3,60 +3,60 @@
   <member>
     <width>70</width>
     <height>150</height>
-    <hp>1000</hp>
-    <speed>2</speed>
-    <offensive>30</offensive>
+    <hp>1200</hp>
+    <speed>4</speed>
+    <offensive>130</offensive>
     <waitingTime>100</waitingTime>
-    <cost>50</cost>
-    <AttackInterval>30</AttackInterval>
+    <cost>30</cost>
+    <AttackInterval>20</AttackInterval>
     <AttackStyle>near</AttackStyle>
     <imagePath>kosei</imagePath>
   </member>
   <member>
     <width>150</width>
     <height>200</height>
-    <hp>3000</hp>
-    <speed>3</speed>
-    <offensive>20</offensive>
+    <hp>3200</hp>
+    <speed>5</speed>
+    <offensive>120</offensive>
     <waitingTime>100</waitingTime>
-    <cost>80</cost>
-    <AttackInterval>30</AttackInterval>
+    <cost>60</cost>
+    <AttackInterval>20</AttackInterval>
     <AttackStyle>far</AttackStyle>
     <imagePath>yousuke</imagePath>
   </member>
   <member>
     <width>100</width>
     <height>100</height>
-    <hp>2000</hp>
-    <speed>2</speed>
-    <offensive>40</offensive>
+    <hp>2200</hp>
+    <speed>4</speed>
+    <offensive>140</offensive>
     <waitingTime>100</waitingTime>
-    <cost>100</cost>
-    <AttackInterval>25</AttackInterval>
+    <cost>80</cost>
+    <AttackInterval>15</AttackInterval>
     <AttackStyle>near</AttackStyle>
     <imagePath>taichi</imagePath>
   </member>
   <member>
     <width>100</width>
     <height>100</height>
-    <hp>1500</hp>
-    <speed>4</speed>
-    <offensive>50</offensive>
+    <hp>1700</hp>
+    <speed>6</speed>
+    <offensive>150</offensive>
     <waitingTime>100</waitingTime>
-    <cost>120</cost>
-    <AttackInterval>20</AttackInterval>
+    <cost>100</cost>
+    <AttackInterval>10</AttackInterval>
     <AttackStyle>near</AttackStyle>
     <imagePath>hikaru</imagePath>
   </member>
   <member>
     <width>100</width>
     <height>200</height>
-    <hp>1800</hp>
-    <speed>3</speed>
-    <offensive>50</offensive>
+    <hp>2000</hp>
+    <speed>5</speed>
+    <offensive>150</offensive>
     <waitingTime>300</waitingTime>
-    <cost>150</cost>
-    <AttackInterval>30</AttackInterval>
+    <cost>130</cost>
+    <AttackInterval>20</AttackInterval>
     <AttackStyle>near</AttackStyle>
     <imagePath>shingo</imagePath>
   </member>
