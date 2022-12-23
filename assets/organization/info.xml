@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Info>
 	<member>
-		<width>100</width>
-        <height>100</height>
+		<width>70</width>
+        <height>150</height>
 		<hp>1000</hp>
 		<speed>3</speed>
 		<offensive>30</offensive>
@@ -47,5 +47,17 @@
 		<AttackInterval>20</AttackInterval>
 		<AttackStyle>near</AttackStyle>
 		<imagePath>hikaru</imagePath>
+	</member>
+	<member>
+		<width>100</width>
+        <height>200</height>
+		<hp>1800</hp>
+		<speed>3</speed>
+		<offensive>50</offensive>
+		<waitingTime>300</waitingTime>
+		<cost>150</cost>
+		<AttackInterval>30</AttackInterval>
+		<AttackStyle>near</AttackStyle>
+		<imagePath>shingo</imagePath>
 	</member>
 </Info>

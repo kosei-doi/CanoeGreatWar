@@ -9,13 +9,14 @@ using System.Collections.Generic;
 using WMPLib;
 using System.Linq;
 using System.Xml.Linq;
+using System.Diagnostics;
 
 class Program : Form
 {
     const int WINDOW_WIDTH = 1334;
     const int WINDOW_HEIGHT = 750;
     const int FONT_SIZE = 14;
-    const int FPS = 30;
+    const int FPS = 120;
     const string ImagePath = "./assets/images/";
     const string SoundPath = "./assets/sounds/";
     const string MapPath = "./assets/map/";
@@ -62,8 +63,10 @@ class Program : Form
     static int MaxMoneyStep = 0;
     static int MoneyUpCost = 0;
     static int MoneyUpCostStep = 0;
+    static int XP = 0;
+    static int OnceXP = 0;
 
-    static List<int> CharasCost = new List<int>() { 100000, 100000, 100000, 100000, 100000 };
+    static List<int> CharasCost = new List<int>() { 100000, 100000, 100000, 100000, 100000,100000 };
     static List<Image> ListCharaImages = new List<Image>();
     static List<string> Comments = new List<string>();
     static List<string> CharaList = new List<string>();
@@ -125,7 +128,8 @@ class Program : Form
     System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
     System.Diagnostics.Stopwatch extra_sw = new System.Diagnostics.Stopwatch();
 
-    
+    System.Diagnostics.Stopwatch game_sw = new System.Diagnostics.Stopwatch();
+
     private System.Media.SoundPlayer player = null;
 
     static byte mScene = 0; //0:起動画面 1:スタート画面 2:ダッシュボード 3:日本地図 4:戦闘画面（メイン） 5：戦闘終了画面 6:パワーアップ画面
@@ -177,6 +181,15 @@ class Program : Form
                     mScene = 2;
                     MainSoundFlag = true;
                     ButtonPushed();
+
+
+                    XElement ml = XElement.Load(DataPath + "xp.xml");
+                    IEnumerable<XElement> info = from item in ml.Elements("Info") select item;
+
+                    foreach (var xp in info)
+                    {
+                        XP = int.Parse(xp.Element("XP").Value);
+                    }
                 }
             }
             return;
@@ -251,6 +264,14 @@ class Program : Form
                 mScene = 2;
                 MainSoundFlag = true;
                 ButtonPushed();
+
+                XElement ml = XElement.Load(DataPath + "xp.xml");
+                IEnumerable<XElement> info = from item in ml.Elements("Info") select item;
+
+                foreach (var xp in info)
+                {
+                    XP = int.Parse(xp.Element("XP").Value);
+                }
             }
         }
 
@@ -259,7 +280,7 @@ class Program : Form
     {
 
         var c = e.KeyCode;
-        Console.WriteLine("KEYDOWM:"+c);
+        //Console.WriteLine("KEYDOWM:"+c);
 
         if (e.KeyCode == Keys.Escape)
         {
@@ -401,12 +422,12 @@ class Program : Form
             
             if(LevelUpScene == 1 && e.KeyCode == Keys.A)
             {
-		LevelUpScene = 0;
-		NowMoney -= MoneyUpCost;
-		MoneyUpSpeed--;
-		MoneyUpCost += MoneyUpCostStep;
-		MaxMoney += MaxMoneyStep;
-	    }
+		        LevelUpScene = 0;
+		        NowMoney -= MoneyUpCost;
+		        MoneyUpSpeed--;
+		        MoneyUpCost += MoneyUpCostStep;
+		        MaxMoney += MaxMoneyStep;
+	        }
 	    
 
             if(e.KeyCode == Keys.D1)
@@ -429,8 +450,12 @@ class Program : Form
             {
                 OrderedCharas = 4;
             }
+            else if(e.KeyCode == Keys.D6)
+            {
+                OrderedCharas = 5;
+            }
 
-            if(e.KeyCode == Keys.D1 || e.KeyCode == Keys.D2 || e.KeyCode == Keys.D3 || e.KeyCode == Keys.D4 || e.KeyCode == Keys.D5)
+            if(e.KeyCode == Keys.D1 || e.KeyCode == Keys.D2 || e.KeyCode == Keys.D3 || e.KeyCode == Keys.D4 || e.KeyCode == Keys.D5 || e.KeyCode == Keys.D6)
             {
                 if (NowMoney - CharasCost[OrderedCharas] >= 0)
                 {
@@ -501,6 +526,26 @@ class Program : Form
                     Flame_Cursor = 0; 
                 }
             }
+
+            if(e.KeyCode == Keys.Return && Flame_Cursor == 0)
+            {
+                try
+                {
+                    int num = int.Parse(CharaList[UpGrade_Cursor + 2]);
+                    XElement xml = XElement.Load(CharaPath + "normal/info.xml");
+
+                    // userを取得
+                    IEnumerable<XElement> members = from item in xml.Elements("member") select item;
+
+                    members[num]
+
+                }
+                catch
+                {
+                    Console.WriteLine("not");
+                }
+            }
+
         }
     }
     
@@ -757,6 +802,21 @@ class Program : Form
                 // Draw the text and the surrounding rectangle.
 
                 g.DrawString(text, font, Brushes.White, rect, stringFormat);
+            }
+            using (Font font = new Font("Meiryo UI", 32, FontStyle.Bold, GraphicsUnit.Point))
+            {
+                Rectangle rect = new Rectangle(1076, 7, 225, 46);
+
+                // Create a StringFormat object with the each line of text, and the block
+                // of text centered on the page.
+                StringFormat stringFormat = new StringFormat();
+                stringFormat.Alignment = StringAlignment.Center;
+                stringFormat.LineAlignment = StringAlignment.Center;
+
+
+                // Draw the text and the surrounding rectangle.
+
+                g.DrawString(XP.ToString(), font, Brushes.Black, rect, stringFormat);
             }
 
             if (DashAnimationScene != 0)
@@ -1069,7 +1129,8 @@ class Program : Form
             
             if (MainGameLoadFlag)
             {
-               
+                game_sw.Start();
+
                 int c = 0;
                 foreach(var user in users)
                 {
@@ -1155,15 +1216,16 @@ class Program : Form
             
             int[,] CharaPlaces = new int[,]
             {
-                {295,643,120,89},
-                {447,643,120,89},
-                {598,643,120,89},
-                {751,643,120,89},
-                {903,643,120,89}
+                {245,643,120,89},
+                {395,643,120,89},
+                {548,643,120,89},
+                {700,643,120,89},
+                {853,643,120,89},
+                {1006,643,120,89}
             };
             
 
-            int[] CostOfCharaPlaces = new int[] { 336, 489, 635, 790, 938 };
+            int[] CostOfCharaPlaces = new int[] { 286, 439, 585, 740, 888, 1041};
 
             
             int count = 0;
@@ -1554,7 +1616,7 @@ class Program : Form
 
 
                 //draw
-                Console.WriteLine(CharaRunnings[i].Statement);
+                //Console.WriteLine(CharaRunnings[i].Statement);
                 if(CharaRunnings[i].Statement == 4)
                 {
                     g.DrawImage(CharaInfoList[CharaRunnings[i].CharaType].Image[x + CharaRunnings[i].Statement - 1], new Rectangle(CharaRunnings[i].X - CharaInfoList[CharaRunnings[i].CharaType].Width - 50 , 474 - 5 * i + 60 - CharaInfoList[CharaRunnings[i].CharaType].Height - CharaRunnings[i].Y, CharaInfoList[CharaRunnings[i].CharaType].Width + 50, CharaInfoList[CharaRunnings[i].CharaType].Height),
@@ -1804,11 +1866,66 @@ class Program : Form
             if (NowTowerStrength < 0 && MainGameStu == "MainGame")
             {
                 MainGameStu = "Lose";
+
+                game_sw.Stop();
+                // Get the elapsed time as a TimeSpan value.
+                TimeSpan ts = game_sw.Elapsed;
+
+                if (ts.TotalSeconds < 120)
+                {
+                    OnceXP += 100;
+                }
+                else if (ts.TotalSeconds < 200)
+                {
+                    OnceXP += 200;
+                }
+                else if (ts.TotalSeconds < 300)
+                {
+                    OnceXP += 300;
+                }
+                else if (ts.TotalSeconds < 400)
+                {
+                    OnceXP += 400;
+                }
+                else
+                {
+                    OnceXP += 500;
+                }
+                XP += OnceXP;
             }
 
             if (EnemyNowTowerStrength < 0 && MainGameStu == "MainGame")
             {
                 MainGameStu = "Win";
+
+                game_sw.Stop();
+                // Get the elapsed time as a TimeSpan value.
+                TimeSpan ts = game_sw.Elapsed;
+
+                if (ts.TotalSeconds < 120)
+                {
+                    OnceXP += 1500;
+                }
+                else if (ts.TotalSeconds < 200)
+                {
+                    OnceXP += 1000;
+                }
+                else if (ts.TotalSeconds < 300)
+                {
+                    OnceXP += 700;
+                }
+                else if (ts.TotalSeconds < 400)
+                {
+                    OnceXP += 500;
+                }
+                else
+                {
+                    OnceXP += 300;
+                }
+
+                OnceXP += NowTowerStrength;
+
+                XP += OnceXP;
             }
 
             if (MainGameStu == "Win")
@@ -1831,7 +1948,7 @@ class Program : Form
             
             if (MainGameStu == "Lose" || MainGameStu == "EndLose")
             {
-                g.DrawImage(Dirt_img, new Rectangle(258, 635, 775, 105),
+                g.DrawImage(Dirt_img, new Rectangle(208, 635, 930, 108),
                 0, 0, Dirt_img.Width, Dirt_img.Height, GraphicsUnit.Pixel, ia);
 
                 StopBackSound();
@@ -1868,6 +1985,21 @@ class Program : Form
 
                     g.DrawString("敗北...", font, Brushes.White, rect, stringFormat);
                 }
+                using (Font font = new Font("Arial", 75, FontStyle.Bold, GraphicsUnit.Point))
+                {
+                    Rectangle rect = new Rectangle(WINDOW_WIDTH / 2 - 260, WINDOW_HEIGHT / 2 + 100, 520, 120);
+
+                    // Create a StringFormat object with the each line of text, and the block
+                    // of text centered on the page.
+                    StringFormat stringFormat = new StringFormat();
+                    stringFormat.Alignment = StringAlignment.Center;
+                    stringFormat.LineAlignment = StringAlignment.Center;
+
+
+                    // Draw the text and the surrounding rectangle.
+
+                    g.DrawString(OnceXP.ToString()+"XP", font, Brushes.White, rect, stringFormat);
+                }
 
                 if (MainGameFrame % 2 == 0)
                 {
@@ -1892,7 +2024,7 @@ class Program : Form
 
             if (MainGameStu == "Win" || MainGameStu == "EndWin")
             {
-                g.DrawImage(Dirt_img, new Rectangle(258, 635, 775, 105),
+                g.DrawImage(Dirt_img, new Rectangle(208, 635, 930, 108),
                 0, 0, Dirt_img.Width, Dirt_img.Height, GraphicsUnit.Pixel, ia);
 
                 StopBackSound();
@@ -1928,6 +2060,21 @@ class Program : Form
                     // Draw the text and the surrounding rectangle.
 
                     g.DrawString("勝利...", font, Brushes.White, rect, stringFormat);
+                }
+                using (Font font = new Font("Arial", 75, FontStyle.Bold, GraphicsUnit.Point))
+                {
+                    Rectangle rect = new Rectangle(WINDOW_WIDTH / 2 - 260, WINDOW_HEIGHT / 2 + 100, 520, 120);
+
+                    // Create a StringFormat object with the each line of text, and the block
+                    // of text centered on the page.
+                    StringFormat stringFormat = new StringFormat();
+                    stringFormat.Alignment = StringAlignment.Center;
+                    stringFormat.LineAlignment = StringAlignment.Center;
+
+
+                    // Draw the text and the surrounding rectangle.
+
+                    g.DrawString(OnceXP.ToString()+"XP", font, Brushes.White, rect, stringFormat);
                 }
 
                 if (MainGameFrame % 2 == 0)
@@ -1974,6 +2121,24 @@ class Program : Form
                  0, 0, UpGrade_img.Width, UpGrade_img.Height, GraphicsUnit.Pixel, ia);
 
             transparency += 0.1f;
+
+            using (Font _font = new Font("Meiryo UI", 32, FontStyle.Bold, GraphicsUnit.Point))
+            {
+                Rectangle rect = new Rectangle(1076, 7, 225, 46);
+
+                // Create a StringFormat object with the each line of text, and the block
+                // of text centered on the page.
+                StringFormat _stringFormat = new StringFormat();
+                _stringFormat.Alignment = StringAlignment.Center;
+                _stringFormat.LineAlignment = StringAlignment.Center;
+
+
+                // Draw the text and the surrounding rectangle.
+
+                g.DrawString(XP.ToString(), _font, Brushes.Black, rect, _stringFormat);
+            }
+
+
 
             int[,] FlamePlaces = new int[,]
             {
@@ -2296,6 +2461,15 @@ class Program : Form
             NormalCharaLength++;
         }
 
+
+        XElement ml = XElement.Load(DataPath + "xp.xml");
+        IEnumerable<XElement> info = from item in ml.Elements("Info") select item;
+
+        foreach (var xp in info)
+        {
+            XP = int.Parse(xp.Element("XP").Value);
+        }
+
     }
 
     static void FinishMainGame()
@@ -2324,6 +2498,18 @@ class Program : Form
 
         EnemyInfoList.Clear();
         EnemyRunnings.Clear();
+
+
+        XElement ml = XElement.Load(DataPath + "xp.xml");
+        IEnumerable<XElement> info = from item in ml.Elements("Info") select item;
+
+        foreach (var xp in info)
+        {
+            xp.Element("XP").Value = XP.ToString();
+
+        }
+
+        ml.Save(DataPath + "xp.xml");
     }
 
     public class EnemyInfo

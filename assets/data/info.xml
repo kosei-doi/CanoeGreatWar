@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Info>
-	<Info>
+    <Info>
         <TowerStrength>1500</TowerStrength>
         <MaxMoney>150</MaxMoney>
         <MoneyUpSpeed>6</MoneyUpSpeed>

@@ -32,4 +32,12 @@
         <canUse>true</canUse>   
         <imagePath>kamito.png</imagePath>
     </member>
+    <member>
+        <name>しんご</name>
+        <level>1</level>
+        <xp>1100</xp>
+        <comment>彼はとても優しく彼女がいる。このキャラクターによく似ている</comment>
+        <canUse>true</canUse>   
+        <imagePath>shingo.png</imagePath>
+    </member>
 </Info>
