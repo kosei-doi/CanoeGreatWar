@@ -537,12 +537,151 @@ class Program : Form
                     // userÇéÊìæ
                     IEnumerable<XElement> members = from item in xml.Elements("member") select item;
 
-                    members[num]
+                    XElement member = members.ElementAt(num);
+
+                    string name = member.Element("imagePath").Value;
+                    int level = int.Parse(member.Element("level").Value);
+                    int xp = int.Parse(member.Element("xp").Value);
+
+                    // XMLì«Ç›çûÇ›
+                    XElement ml = XElement.Load(OrganizationPath + "/info.xml");
+
+                    // userÇéÊìæ
+                    XElement info = (from item in ml.Elements("member")
+                                     where item.Element("imagePath").Value == name
+                                     select item).Single();
+
+                    int hp = int.Parse(info.Element("hp").Value);
+                    int speed = int.Parse(info.Element("speed").Value);
+                    int offensive = int.Parse(info.Element("offensive").Value);
+                    int cost = int.Parse(info.Element("cost").Value);
+                    int attackInterval = int.Parse(info.Element("AttackInterval").Value);
+
+                    XElement l = XElement.Load(DataPath + "xp.xml");
+                    IEnumerable<XElement> inf = from item in l.Elements("Info") select item;
+                    int Xp = int.Parse(inf.ElementAt(0).Element("XP").Value);
+                    //xp.Element("XP").Value = XP.ToString();
+                    
+                    Xp -= xp;
+
+                    if (level < 5 && Xp >= 0)
+                    {
+                        
+                        hp += 20 * level;
+                        if(level % 2 == 0)
+                        {
+                            speed += 1;
+                        }
+                        offensive += 10 * level;
+                        cost -= 2 * level;
+                        attackInterval -= 1 * level;
+                    
+                        xp += 300 * level;
+                        level++;
+
+
+                        info.Element("hp").Value = hp.ToString();
+                        info.Element("speed").Value = speed.ToString();
+                        info.Element("offensive").Value = offensive.ToString();
+                        info.Element("cost").Value = cost.ToString();
+                        info.Element("AttackInterval").Value = attackInterval.ToString();
+
+                        inf.ElementAt(0).Element("XP").Value = Xp.ToString();
+                        XP = Xp;
+                        member.Element("level").Value = level.ToString();
+                        member.Element("xp").Value = xp.ToString();
+                    }
+                    else if(Xp < 0)
+                    {
+                        Xp += xp;
+                    }
+                    if(level >= 5)
+                    {
+                        member.Element("level").Value = "Åá";
+                        member.Element("xp").Value = "MAX";
+                    }
+
+                    xml.Save(CharaPath + "normal/info.xml");
+                    ml.Save(OrganizationPath + "/info.xml");
+                    l.Save(DataPath + "xp.xml");
 
                 }
                 catch
                 {
-                    Console.WriteLine("not");
+                    XElement l = XElement.Load(DataPath + "xp.xml");
+                    IEnumerable<XElement> inf = from item in l.Elements("Info") select item;
+                    int Xp = int.Parse(inf.ElementAt(0).Element("XP").Value);
+                    //xp.Element("XP").Value = XP.ToString();
+
+                    Xp -= 1000;
+
+                    if(Xp >= 0)
+                    {
+                        XElement m = XElement.Load(DataPath + "/info.xml");
+
+                        // userÇéÊìæ
+                        IEnumerable<XElement> us = from item in m.Elements("Info") select item;
+                        XElement info = us.ElementAt(0);
+
+                        int tower_strength = int.Parse(info.Element("TowerStrength").Value);//
+                        int max_money = int.Parse(info.Element("MaxMoney").Value);//
+                        int max_money_step = int.Parse(info.Element("MaxMoneyUpStep").Value);//
+                        int money_cost = int.Parse(info.Element("MoneyUpCost").Value);//
+                        int money_cost_step = int.Parse(info.Element("MoneyUpCostStep").Value);//
+                        int tower_interval = int.Parse(info.Element("TowerAttackInterval").Value);//
+                        int tower_attack = int.Parse(info.Element("TowerAttack").Value);//
+
+
+                        Console.WriteLine(CharaList[UpGrade_Cursor + 2]);
+                        string target = CharaList[UpGrade_Cursor + 2];
+
+
+                        if (target == "B")
+                        {
+                            tower_attack += 300;
+                        }
+                        else if (target == "C")
+                        {
+                            max_money_step += 5;
+                        }
+                        else if (target == "D")
+                        {
+                            tower_interval -= 50;
+                        }
+                        else if (target == "E")
+                        {
+                            tower_strength += 300;
+                        }
+                        else if (target == "F")
+                        {
+                            money_cost += 15;
+                        }
+                        else if (target == "G")
+                        {
+                            money_cost_step += 5;
+                        }
+                        else if (target == "H")
+                        {
+                            max_money += 10;
+                        }
+
+
+                        info.Element("TowerStrength").Value = tower_strength.ToString();
+                        info.Element("MaxMoney").Value = max_money.ToString();
+                        info.Element("MaxMoneyUpStep").Value = max_money_step.ToString();
+                        info.Element("MoneyUpCost").Value = money_cost.ToString();
+                        info.Element("MoneyUpCostStep").Value = money_cost_step.ToString();
+                        info.Element("TowerAttackInterval").Value = tower_interval.ToString();
+                        info.Element("TowerAttack").Value = tower_attack.ToString();
+
+                        inf.ElementAt(0).Element("XP").Value = Xp.ToString();
+
+                        m.Save(DataPath + "/info.xml");
+                        l.Save(DataPath + "xp.xml");
+                        XP = Xp;
+                    }
+
+                    
                 }
             }
 
@@ -2221,7 +2360,7 @@ class Program : Form
                 int temporary = 0;
                 foreach (var member in members)
                 {
-                    Image li = Image.FromFile(CharaPath + "normal/" + member.Element("imagePath").Value);
+                    Image li = Image.FromFile(CharaPath + "normal/" + member.Element("imagePath").Value + ".png");
                     UpgradeCharaImage.Add(li);
 
                     CharaList.Add(temporary.ToString());
