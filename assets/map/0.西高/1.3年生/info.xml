@@ -15,7 +15,7 @@
 	</member>
     <member>
         <width>100</width>
-        <height>200</height>
+        <height>100</height>
 		<hp>1500</hp>
 		<speed>2</speed>
 		<Attack>60</Attack>
