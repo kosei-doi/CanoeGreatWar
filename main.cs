@@ -16,7 +16,7 @@ class Program : Form
     const int WINDOW_WIDTH = 1334;
     const int WINDOW_HEIGHT = 750;
     const int FONT_SIZE = 14;
-    const int FPS = 120;
+    const int FPS = 30;
     const string ImagePath = "./assets/images/";
     const string SoundPath = "./assets/sounds/";
     const string MapPath = "./assets/map/";
