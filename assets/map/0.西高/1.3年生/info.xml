@@ -37,4 +37,16 @@
 		<AttackStyle>far</AttackStyle>
 		<imagePath>uchimura</imagePath>
 	</member>
+	<member>
+        <width>100</width>
+        <height>100</height>
+		<hp>1500</hp>
+		<speed>1</speed>
+		<Attack>60</Attack>
+        <firstWaitingTime>60</firstWaitingTime>
+		<waitingTime>600</waitingTime>
+        <AttackInterval>50</AttackInterval>
+		<AttackStyle>far</AttackStyle>
+		<imagePath>souta</imagePath>
+	</member>
 </Info>
