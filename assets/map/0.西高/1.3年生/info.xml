@@ -41,7 +41,7 @@
         <width>100</width>
         <height>100</height>
 		<hp>1500</hp>
-		<speed>1</speed>
+		<speed>2</speed>
 		<Attack>60</Attack>
         <firstWaitingTime>60</firstWaitingTime>
 		<waitingTime>600</waitingTime>
